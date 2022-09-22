@@ -6,8 +6,11 @@ from dataclasses import dataclass
 
 @dataclass
 class Soldier(Citizen):
+    type: str = 'Солдат'
     military_unit: str = ""
     rank: str = ""
+
+
     def __post_init__(self):
         super().__post_init__()
         addition = [("военная часть", "military_unit"), ("звание", "rank")]

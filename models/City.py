@@ -1,26 +1,31 @@
 from asm2204.st27.IO.FileIO import FileIO
-from asm2204.st27.IO.Utils import Utils
+from asm2204.st27.IO.Utils import Utils_console, Utils_web
+
 
 class City:
-    def __init__(self):
+    def __init__(self, source):
         self.citizens = dict()
         self.storage = FileIO(self)
-        self.utils = Utils(self)
+        if source == "console":
+            self.utils = Utils_console(self)
+        elif source == "web":
+            self.utils = Utils_web(self)
         self.maxID = 0
 
-    def add(self):
+    def add(self, data=None):
         """Добавление нового жителя в список населения города"""
 
-        self.utils.add()
+        print("Тут 1")
+        self.utils.add(data)
 
     def write(self):
-        """Ввывод списка жителей города"""
+        """Вывод списка жителей города"""
 
         if self.empty_check():
                 return
-        for id, human in self.citizens.items():
+        for id, citizen in self.citizens.items():
             print("----------------------------------------")
-            human.write()
+            citizen.write()
         print("----------------------------------------")
 
     def save(self):
@@ -35,39 +40,18 @@ class City:
 
         self.storage.load()
 
-    def delete(self):
+    def delete(self, citizen_id = None):
         """Удаление данных одного из жителей"""
-
-        if self.empty_check():
-            return
-        self.write()
-        while True:
-            try:
-                id =  int(input("Укажите ID жителя для удаления его данных: "))
-                del self.citizens[id]
-                print("Данные о жителе успешно удалены")
-                break
-            except:
-                print("Некорректное значение")
-
+        self.utils.delete_citizen(citizen_id)
 
     def full_delete(self):
         """Удаление данных о всех жителях"""
 
         if self.empty_check():
-                return
-        while True:
-            try:
-                if int(input("""Вы точно хотите удалить всю картотеку?
-                [1] Да
-                [0] Отмена
-                """)):
-                    self.citizens.clear()
-                    print("Данные успешно удалены")
-                    break
-                break
-            except:
-                print("Некорретное значение")
+                return False
+        self.citizens.clear()
+        print("Данные успешно удалены")
+        return True
 
     def edit_data(self):
         """Редактирование данных одного из жителей"""

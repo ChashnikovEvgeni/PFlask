@@ -6,8 +6,10 @@ from asm2204.st27.models.Citizen import Citizen
 
 @dataclass
 class Doctor(Citizen):
+    type: str = 'Доктор'
     hospital: str = ""
     specialization: str = ""
+
 
     def __post_init__(self):
         super().__post_init__()
