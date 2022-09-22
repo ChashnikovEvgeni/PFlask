@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{{ super() }}
+
+
+
+{% block content %}
+
+
+<div class="container" align="center"  style="margin-top:8%;">
+
+
+ {% for key in population %}
+<div class="card" style="width: 18rem;">
+  <img src="..." class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title" align="left">{{population[key].type}}</h5>
+    <hr/>
+    <p class="card-text">Имя: {{population[key].first_name}}</p>
+    <p class="card-text">Фамилия: {{population[key].last_name}}</p>
+    <p class="card-text">Возраст: {{population[key].age}}</p>
+    {% if population[key].hospital %}
+    <p class="card-text">{{population[key].hospital}}</p>
+    <p class="card-text">{{population[key].specialization}}</p>
+    {% endif %}
+    {% if population[key].military_unit %}
+    <p class="card-text">{{population[key].military_unit}}</p>
+    <p class="card-text">{{population[key].rank}}</p>
+    {% endif %}
+    <a href="#" class="btn btn-primary">Редактировать</a>
+    <a href="dell/{{population[key].id}}" class="btn btn-primary">Удалить</a>
+  </div>
+</div>
+</br>
+{% endfor %}
+
+
+
+
+
+
+</div>
+{% endblock %}

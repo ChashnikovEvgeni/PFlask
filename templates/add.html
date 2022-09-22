@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{{ super() }}
+
+
+{% block content %}
+<div class="container" align="center" style="margin-top:6%;">
+<div class="col-6">
+<form action="/add" method="post" class="form-add">
+    <p><label class="form-label">Имя: </label> <input type="text" class="form-control" name="first_name" value="" required /></p>
+    <p><label class="form-label">Фамилия: </label> <input type="text" class="form-control"  name="last_name" value="" required /></p>
+    <p><label class="form-label">Возраст: </label> <input type="text" class="form-control" name="age" value="" required /></p>
+    <select class="form-select" aria-label="Default select example" name="citizen_type">
+    <option selected>Open this select menu</option>
+    <option value="Житель">Обычный житель</option>
+    <option value="Врач">Врач</option>
+    <option value="Солдат">Солдат</option>
+</select>
+    </br>
+    <p><input type="submit"  class="btn btn-primary" value="Добавить" required /></p>
+</form>
+</div>
+</div>
+{% endblock %}
