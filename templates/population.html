@@ -12,23 +12,23 @@
 
  {% for key in population %}
 <div class="card" style="width: 18rem;">
-  <img src="..." class="card-img-top" alt="...">
+  <img src="{{ url_for('static', filename='img/citizen.jpg') }}" class="card-img-top" alt="...">
   <div class="card-body">
     <h5 class="card-title" align="left">{{population[key].type}}</h5>
     <hr/>
     <p class="card-text">Имя: {{population[key].first_name}}</p>
     <p class="card-text">Фамилия: {{population[key].last_name}}</p>
     <p class="card-text">Возраст: {{population[key].age}}</p>
-    {% if population[key].hospital %}
-    <p class="card-text">{{population[key].hospital}}</p>
-    <p class="card-text">{{population[key].specialization}}</p>
+    {% if population[key].type == "Доктор" %}
+    <p class="card-text">Больница: {{population[key].hospital}}</p>
+    <p class="card-text">Специализация: {{population[key].specialization}}</p>
     {% endif %}
-    {% if population[key].military_unit %}
-    <p class="card-text">{{population[key].military_unit}}</p>
-    <p class="card-text">{{population[key].rank}}</p>
+    {% if population[key].type == "Солдат" %}
+    <p class="card-text">Военная часть: {{population[key].military_unit}}</p>
+    <p class="card-text">Сержант: {{population[key].rank}}</p>
     {% endif %}
-    <a href="#" class="btn btn-primary">Редактировать</a>
-    <a href="dell/{{population[key].id}}" class="btn btn-primary">Удалить</a>
+    <a href="{{url_for('edit', citizen_id=population[key].id)}}" class="btn btn-primary">Редактировать</a>
+    <a href="{{url_for('dell_citizen', citizen_id=population[key].id)}}" class="btn btn-primary">Удалить</a>
   </div>
 </div>
 </br>

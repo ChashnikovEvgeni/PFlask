@@ -24,23 +24,35 @@ class Utils_console:
             except:
                 print("Некорректное значение или удаление невозможно")
 
-    def editing(self, citizen):
+    def editing(self, data= None):
         """Редактирование данных одного из жителей из консоли"""
 
+        if self.city.empty_check():
+            return
+        self.city.write()
+        print("a yt nfv ult na")
         while True:
-            print("------------- Информация о жителе ------------")
-            citizen.write()
-            choice = str(input("""
-            Введите 0 для выхода или введите название поля,
-            которое хотите изменить. Без пробела: """)).lower()
-            if choice == "0":
+            try:
+                id = int(input("Укажите ID жителя, данные которого вы желаете изменить: "))
+                citizen = self.city.citizens[id]
+                while True:
+                    print("------------- Информация о жителе ------------")
+                    citizen.write()
+                    choice = str(input("""
+                    Введите 0 для выхода или введите название поля,
+                    которое хотите изменить. Без пробела: """)).lower()
+                    if choice == "0":
+                        break
+                    elif choice == "id":
+                        print("Извините, значение поля ID изменить нельзя")
+                    elif citizen.fields.get(choice) == None:
+                        print("Введёно неверное имя поля")
+                    else:
+                        exec(f"citizen.{citizen.fields[choice]} = input('Введите значение поля: ')")
+                        self.city.citizens[id] = citizen
                 break
-            elif choice == "id":
-                print("Извините, значение поля ID изменить нельзя")
-            elif citizen.fields.get(choice) == None:
-                print("Введёно неверное имя поля")
-            else:
-                exec(f"citizen.{citizen.fields[choice]} = input('Введите значение поля: ')")
+            except:
+                print("Некорректное значение")
 
 
     def add(self, data=None):
@@ -85,30 +97,30 @@ class Utils_web:
          self.city = city
 
 
-    def add(self, data):
-        """Добавление данных нового жителя на основе данных от web-приложения"""
+    def editing(self, data):
+        """Редактирование данных одного из жителей из web-приложения"""
 
-
-        if data["citizen_type"] == "Житель":
+        if data["type"] == "Житель":
             citizen = Citizen()
-            citizen.id = data["id"]
+            citizen.id = int(data["id"])
             citizen.first_name = data["first_name"]
             citizen.last_name = data["last_name"]
             citizen.age = data["age"]
+            print(citizen)
             self.city.citizens[citizen.id] = citizen
             flash("Данные успешно внесены")
-        elif data["citizen_type"] == "Врач":
+        elif data["type"] == "Доктор":
             doctor = Doctor()
-            doctor.id = data["id"]
+            doctor.id = int(data["id"])
             doctor.first_name = data["first_name"]
             doctor.last_name = data["last_name"]
             doctor.age = data["age"]
             doctor.hospital = data["hospital"]
             doctor.specialization = data["specialization"]
             self.city.citizens[doctor.id] = doctor
-        elif data["citizen_type"] == "Солдат":
+        elif data["type"] == "Солдат":
             soldier = Soldier()
-            soldier.id = data["id"]
+            soldier.id = int(data["id"])
             soldier.first_name = data["first_name"]
             soldier.last_name = data["last_name"]
             soldier.age = data["age"]
@@ -126,10 +138,12 @@ class Utils_web:
         else:
             del self.city.citizens[citizen_id]
 
-    def editing(self, data):
-        """Редактирование данных одного из жителей из web-приложения"""
-
+    def add(self, data):
+        """Добавление данных нового жителя на основе данных от web-приложения"""
+        print("nen3")
+        print(data["citizen_type"])
         if data["citizen_type"] == "Житель":
+            print("nen4")
             citizen = Citizen()
             citizen.first_name = data["first_name"]
             citizen.last_name = data["last_name"]
@@ -138,7 +152,7 @@ class Utils_web:
             citizen.id = self.city.maxID
             self.city.citizens[citizen.id] = citizen
             flash("Данные успешно внесены")
-        elif data["citizen_type"] == "Врач":
+        elif data["citizen_type"] == "Доктор":
             doctor = Doctor()
             doctor.first_name = data["first_name"]
             doctor.last_name = data["last_name"]

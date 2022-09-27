@@ -4,11 +4,24 @@
 
 
 {% block content %}
-
-<form action="/add" method="post" class="form-add">
-    <p><label>Имя: </label> <input type="text" name="first_name" value="" required /></p>
-    <p><label>Фамилия: </label> <input type="text" name="last_name" value="" required /></p>
-    <p><label>Возраст: </label> <input type="text" name="age" value="" required /></p>
-    <p><input type="submit" value="Добавить" required /></p>
+<div class="container" align="center" style="margin-top:6%;">
+<div class="col-6">
+<form action=" {{url_for('edit', citizen_id=citizen.id)}}" method="post" class="form-add">
+    <p><label class="form-label"></label> <input type="hidden" class="form-control" name="id" value="{{citizen.id}}" required /></p>
+    <p><label class="form-label"></label> <input type="hidden" class="form-control" name="type" value="{{citizen.type}}" required /></p>
+    <p><label class="form-label">Имя: </label> <input type="text" class="form-control" name="first_name" value="{{citizen.first_name}}" required /></p>
+    <p><label class="form-label">Фамилия: </label> <input type="text" class="form-control" name="last_name" value="{{citizen.last_name}}" required /></p>
+    <p><label class="form-label">Возраст: </label> <input type="text" class="form-control" name="age" value="{{citizen.age}}" required /></p>
+    {% if citizen.type == "Доктор"  %}
+    <p><label class="form-label">Название больницы: </label> <input type="text" class="form-control" name="hospital" value="{{citizen.hospital}}" required /></p>
+    <p><label class="form-label">Специализация: </label> <input type="text" class="form-control" name="specialization" value="{{citizen.specialization}}" required /></p>
+    {% endif  %}
+    {% if citizen.type == "Солдат"  %}
+    <p><label class="form-label">Военная часть: </label> <input type="text" class="form-control" name="military_unit" value="{{citizen.military_unit}}" required /></p>
+    <p><label class="form-label">Звание: </label> <input type="text" class="form-control" name="rank" value="{{citizen.rank}}" required /></p>
+    {% endif  %}
+    <p><input type="submit" class="btn btn-primary" value="Изменить данные" required /></p>
 </form>
+</div>
+</div>
 {% endblock %}

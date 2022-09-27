@@ -28,20 +28,17 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/" style="font-size: 120%;">Главная</a>
+          <a class="nav-link active" aria-current="page" href="{{url_for('index')}}" style="font-size: 120%;">Главная</a>
         </li>
          <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff; font-size: 120%; ">
             Работа с данными
           </a>
+
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="/population">Просмотреть картотеку</a></li>
+            <li><a class="dropdown-item" href="{{url_for('show_population')}}">Просмотреть картотеку</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="/add">Добавить данные о человеке</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Редактировать данные о человеке</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item"  href="#">Удалить данные о человеке</a></li>
+            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#Modal_add" >Добавить данные о человеке</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#Modal_delete" >Удалить всю картотеку</a></li>
           </ul>
@@ -53,9 +50,9 @@
             Импорт/экспорт данных
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="/load">Импорт данных из файла</a></li>
+            <li><a class="dropdown-item" href="{{url_for('load_population')}}">Импорт данных из файла</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="/save">Экспорт в файл</a></li>
+            <li><a class="dropdown-item" href="{{url_for('save_population')}}">Экспорт в файл</a></li>
           </ul>
         </li>
 
@@ -78,11 +75,35 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-        <a class="btn btn-primary" href="/dell_all" role="button">Удалить</a>
+        <a class="btn btn-primary" href="{{url_for('dell_all')}}" role="button">Удалить</a>
       </div>
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="Modal_add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabel">Выбор типа добовляемых данных</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body" align="center">
+          <div class="d-grid gap-4 col-8 mx-auto">
+              <p style="font-size: 120%;"><a href="{{url_for('add_citizen', citizen_type='citizen')}}" class="btn btn-lg btn-primary">Житель </a></p>
+              <p style="font-size: 120%;"> <a href="{{url_for('add_citizen', citizen_type='doctor')}}" class="btn btn-lg btn-primary">Доктор </a> </p>
+              <p style="font-size: 120%;"> <a href="{{url_for('add_citizen',citizen_type='soldier')}}" class="btn btn-lg btn-primary">Солдат </a> </p>
+            </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 {% endblock %}
 

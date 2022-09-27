@@ -14,8 +14,6 @@ class City:
 
     def add(self, data=None):
         """Добавление нового жителя в список населения города"""
-
-        print("Тут 1")
         self.utils.add(data)
 
     def write(self):
@@ -53,19 +51,11 @@ class City:
         print("Данные успешно удалены")
         return True
 
-    def edit_data(self):
+    def edit_data(self, data=None):
         """Редактирование данных одного из жителей"""
+        print("Мы тут")
+        self.utils.editing(data)
 
-        if self.empty_check():
-                return
-        self.write()
-        while True:
-            try:
-                id =  int(input("Укажите ID жителя, данные которого вы желаете изменить: "))
-                self.utils.editing(self.citizens[id])
-                break
-            except:
-                print("Некорректное значение")
 
     def empty_check(self):
         """Проверка на пустоту списка жителей"""

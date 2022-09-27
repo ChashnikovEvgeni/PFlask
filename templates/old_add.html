@@ -5,28 +5,34 @@
 
 {% block content %}
 
-
+<style>
+.js-fieldset {
+  display: inline;
+}
+</style>
 
 
 <div class="container" align="center" style="margin-top:6%;">
 <div class="col-6">
-<form action="{{url_for('add_citizen', citizen_type=citizen_type)}}" method="post" class="form-add" id="myForm">
+<form action="/population" method="post" class="form-add" id="myForm">
     <p><label class="form-label">Имя: </label> <input type="text" class="form-control" name="first_name" value="" required /></p>
     <p><label class="form-label">Фамилия: </label> <input type="text" class="form-control"  name="last_name" value="" required /></p>
     <p><label class="form-label">Возраст: </label> <input type="text" class="form-control" name="age" value="" required /></p>
+    <select class="form-select" id="select_type" aria-label="Default select example">
+    <option selected>Open this select menu</option>
+    <option value="Житель">Обычный житель</option>
+    <option value="Доктор">Доктор</option>
+    <option value="Солдат">Солдат</option>
+</select>
+    </br>
 
-{% if citizen_type == "citizen" %}
-    <p><label class="form-label">Тип: </label> <input  type="text" class="form-control" name="citizen_type" value="Житель" required readonly /></p>
 
-{% elif citizen_type == "doctor" %}
-    <p><label class="form-label">Тип: </label> <input type="text" class="form-control" name="citizen_type" value="Доктор"  required readonly /></p>
    <p><label class="form-label">Название больницы: </label> <input type="text" class="form-control" name="hospital" value="" required /></p>
     <p><label class="form-label">Специализация: </label> <input type="text" class="form-control" name="specialization" value="" required /></p>
-{% elif citizen_type == "soldier" %}
-    <p><label class="form-label">Тип: </label> <input type="text" class="form-control" name="citizen_type" value="Солдат" required readonly/></p>
+
     <p><label class="form-label">Военная часть: </label> <input type="text" class="form-control" name="military_unit" value="" required /></p>
     <p><label class="form-label">Звание: </label> <input type="text" class="form-control" name="rank" value="" required /></p>
-{% endif %}
+
 
 
     <p><input type="submit"  class="btn btn-primary" value="Добавить" required /></p>
@@ -36,4 +42,3 @@
 
 
 {% endblock %}
-
