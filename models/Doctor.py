@@ -1,7 +1,7 @@
 
 from dataclasses import dataclass
 
-from asm2204.st27.models.Citizen import Citizen
+from models.Citizen import Citizen
 
 
 @dataclass

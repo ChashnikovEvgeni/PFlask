@@ -15,7 +15,11 @@ class FileIO:
 
     def load(self):
         try:
-            (self.city.maxID, self.city.citizens) = pickle.load(open("data.dat", "rb"))
+            maxID = 0
+            citizens = []
+            (maxID, citizens) = pickle.load(open("data.dat", "rb"))
+            print(citizens)
+            return citizens
             print("Данные успешно загружены")
         except:
             print("Непредвиденная ошибка:", sys.exc_info()[0])

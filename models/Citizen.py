@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from asm2204.st27.IO.ConsoleIO import ConsoleIO
+from IO.ConsoleIO import ConsoleIO
 
 
 

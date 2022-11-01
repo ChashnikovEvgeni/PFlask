@@ -1,8 +1,118 @@
 from flask import flash
 
-from asm2204.st27.models.Citizen import Citizen
-from asm2204.st27.models.Doctor import Doctor
-from asm2204.st27.models.Soldier import Soldier
+from models.Citizen import Citizen
+from models.Doctor import Doctor
+from models.Soldier import Soldier
+
+
+class Utils_web:
+
+    def __init__(self, city):
+         self.city = city
+
+    def add(self, data, db):
+        """Добавление данных нового жителя на основе данных от web-приложения"""
+
+        if data["citizen_type"] == "Житель":
+            citizen = Citizen()
+            citizen.first_name = data["first_name"]
+            citizen.last_name = data["last_name"]
+            citizen.age = data["age"]
+            self.city.maxID += 1
+            citizen.id = self.city.maxID
+            try:
+                self.city.citizens[citizen.id] = citizen
+                self.city.storageDB.addin_database(citizen, db)
+            except:
+                print("Ошибка сохранения данных")
+            flash("Данные успешно внесены локально")
+        elif data["citizen_type"] == "Доктор":
+            doctor = Doctor()
+            doctor.first_name = data["first_name"]
+            doctor.last_name = data["last_name"]
+            doctor.age = data["age"]
+            doctor.hospital = data["hospital"]
+            doctor.specialization = data["specialization"]
+            self.city.maxID += 1
+            doctor.id = self.city.maxID
+            try:
+                self.city.citizens[doctor.id] = doctor
+                self.city.storageDB.addin_database(doctor, db)
+            except:
+                print("Ошибка сохранения данных")
+            flash("Данные успешно внесены локально")
+        elif data["citizen_type"] == "Солдат":
+            soldier = Soldier()
+            soldier.first_name = data["first_name"]
+            soldier.last_name = data["last_name"]
+            soldier.age = data["age"]
+            soldier.military_unit = data["military_unit"]
+            soldier.rank = data["rank"]
+            self.city.maxID += 1
+            soldier.id = self.city.maxID
+            try:
+                self.city.citizens[soldier.id] = soldier
+                self.city.storageDB.addin_database(soldier, db)
+            except:
+                print("Ошибка сохранения данных")
+            flash("Данные успешно внесены локально")
+
+
+
+    def editing(self, data, db):
+        """Редактирование данных одного из жителей из web-приложения"""
+
+        if data["type"] == "Житель":
+            citizen = Citizen()
+            citizen.id = int(data["id"])
+            citizen.first_name = data["first_name"]
+            citizen.last_name = data["last_name"]
+            citizen.age = data["age"]
+            print(citizen)
+            self.city.storageDB.update_database(citizen, db)
+            self.city.citizens[citizen.id] = citizen
+            flash("Данные успешно изменены локально!")
+        elif data["type"] == "Доктор":
+            doctor = Doctor()
+            doctor.id = int(data["id"])
+            doctor.first_name = data["first_name"]
+            doctor.last_name = data["last_name"]
+            doctor.age = data["age"]
+            doctor.hospital = data["hospital"]
+            doctor.specialization = data["specialization"]
+            print(doctor)
+            self.city.storageDB.update_database(doctor, db)
+            self.city.citizens[doctor.id] = doctor
+            flash("Данные успешно изменены!")
+        elif data["type"] == "Солдат":
+            soldier = Soldier()
+            soldier.id = int(data["id"])
+            soldier.first_name = data["first_name"]
+            soldier.last_name = data["last_name"]
+            soldier.age = data["age"]
+            soldier.military_unit = data["military_unit"]
+            soldier.rank = data["rank"]
+            print(soldier)
+            self.city.storageDB.update_database(soldier, db)
+            self.city.citizens[soldier.id] = soldier
+            flash("Данные успешно изменены!")
+
+
+    def delete_citizen(self, citizen_id, db):
+        """Удаление данных одного из жителей из консоли"""
+
+        if self.city.empty_check():
+            return
+        else:
+            if self.city.citizens[citizen_id].type == "Житель":
+                table = "Citizen"
+            elif  self.city.citizens[citizen_id].type == "Доктор":
+                table = "Doctor"
+            elif self.city.citizens[citizen_id].type == "Солдат":
+                table = "Soldier"
+            del self.city.citizens[citizen_id]
+            self.city.storageDB.dell_data(table, citizen_id, db)
+
 
 
 class Utils_console:
@@ -55,7 +165,7 @@ class Utils_console:
                 print("Некорректное значение")
 
 
-    def add(self, data=None):
+    def add(self, data=None, db=None):
         """Добавление данных одного жителя по вводу из консоли"""
 
         while True:
@@ -90,86 +200,4 @@ class Utils_console:
                 print("Некорректное значение")
 
 
-
-class Utils_web:
-
-    def __init__(self, city):
-         self.city = city
-
-
-    def editing(self, data):
-        """Редактирование данных одного из жителей из web-приложения"""
-
-        if data["type"] == "Житель":
-            citizen = Citizen()
-            citizen.id = int(data["id"])
-            citizen.first_name = data["first_name"]
-            citizen.last_name = data["last_name"]
-            citizen.age = data["age"]
-            print(citizen)
-            self.city.citizens[citizen.id] = citizen
-            flash("Данные успешно внесены")
-        elif data["type"] == "Доктор":
-            doctor = Doctor()
-            doctor.id = int(data["id"])
-            doctor.first_name = data["first_name"]
-            doctor.last_name = data["last_name"]
-            doctor.age = data["age"]
-            doctor.hospital = data["hospital"]
-            doctor.specialization = data["specialization"]
-            self.city.citizens[doctor.id] = doctor
-        elif data["type"] == "Солдат":
-            soldier = Soldier()
-            soldier.id = int(data["id"])
-            soldier.first_name = data["first_name"]
-            soldier.last_name = data["last_name"]
-            soldier.age = data["age"]
-            soldier.military_unit = data["military_unit"]
-            soldier.rank = data["rank"]
-            self.city.citizens[soldier.id] = soldier
-
-
-
-    def delete_citizen(self, citizen_id=None):
-        """Удаление данных одного из жителей из консоли"""
-
-        if self.city.empty_check():
-            return
-        else:
-            del self.city.citizens[citizen_id]
-
-    def add(self, data):
-        """Добавление данных нового жителя на основе данных от web-приложения"""
-        print("nen3")
-        print(data["citizen_type"])
-        if data["citizen_type"] == "Житель":
-            print("nen4")
-            citizen = Citizen()
-            citizen.first_name = data["first_name"]
-            citizen.last_name = data["last_name"]
-            citizen.age = data["age"]
-            self.city.maxID += 1
-            citizen.id = self.city.maxID
-            self.city.citizens[citizen.id] = citizen
-            flash("Данные успешно внесены")
-        elif data["citizen_type"] == "Доктор":
-            doctor = Doctor()
-            doctor.first_name = data["first_name"]
-            doctor.last_name = data["last_name"]
-            doctor.age = data["age"]
-            doctor.hospital = data["hospital"]
-            doctor.specialization = data["specialization"]
-            self.city.maxID += 1
-            doctor.id = self.city.maxID
-            self.city.citizens[doctor.id] = doctor
-        elif data["citizen_type"] == "Солдат":
-            soldier = Soldier()
-            soldier.first_name = data["first_name"]
-            soldier.last_name = data["last_name"]
-            soldier.age = data["age"]
-            soldier.military_unit = data["military_unit"]
-            soldier.rank = data["rank"]
-            self.city.maxID += 1
-            soldier.id = self.city.maxID
-            self.city.citizens[soldier.id] = soldier
 

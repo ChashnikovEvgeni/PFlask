@@ -50,7 +50,9 @@
             Импорт/экспорт данных
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{{url_for('load_population')}}">Импорт данных из файла</a></li>
+            <li><a class="dropdown-item" href="{{url_for('load_population', source='File')}}">Импорт данных из файла</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{url_for('load_population', source='DB')}}">Импорт данных из бд</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{{url_for('save_population')}}">Экспорт в файл</a></li>
           </ul>
